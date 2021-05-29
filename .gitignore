@@ -5,6 +5,8 @@ node_modules
 
 # Ignore generated data
 public/data/
+dist/
+
 
 # Do not check in credentials
 credentials.json
