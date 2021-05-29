@@ -106,27 +106,18 @@ export default {
       const tweetsDisplay = document.querySelector('.tweets');
       const tweetElement = document.createElement('div', 'tweet');
 
-      const tweetHtml = `<blockquote class="twitter-tweet loading" data-url="https://twitter.com/twitter/status/${tweet.id}"><a href="https://twitter.com/twitter/status/${tweet.id}">${tweet.text}</a></blockquote>`;
+      const tweetHtml = `<blockquote class="twitter-tweet loading" data-url="https://twitter.com/twitter/status/${tweet.id}">@${tweet.author.username} ${tweet.author.name}: <a href="https://twitter.com/twitter/status/${tweet.id}">${tweet.text}</a></blockquote>`;
       tweetElement.innerHTML = tweetHtml;
       tweetsDisplay.insertBefore(tweetElement, tweetsDisplay.firstChild);
       // eslint-disable-next-line no-undef
       twttr.widgets.load(tweetsDisplay);
     },
-    loadTweet(tweet) {
-      const oembed = `https://publish.twitter.com/oembed?url=https://twitter.com/user/status/${tweet.id}&omit_script=true`;
-      fetch(oembed)
-        .then((response) => response.json())
-        .then((response) => {
-          const tweetsDisplay = document.querySelector('.tweets');
-          const tweetElement = document.createElement('div', 'tweet');
-          tweetElement.innerHTML = response.html;
-          tweetsDisplay.insertBefore(tweetElement, tweetsDisplay.firstChild);
-        });
-    },
+
     rowDidClick(userId) {
       const latestTweet = this.latest[userId];
-      if (latestTweet) {
+      if (latestTweet && !latestTweet.loaded) {
         this.loadTweetHack(latestTweet);
+        latestTweet.loaded = true;
       }
     },
   },

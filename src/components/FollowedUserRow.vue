@@ -9,7 +9,7 @@
     <div class="metrics">{{ user.public_metrics.following_count }}</div>
     <div class="metrics">{{ user.public_metrics.followers_count }}</div>
     <div class="latest-at">
-      <a v-if="user.latest_tweet" href="#" @click.prevent="$emit('row-clicked', user.id)">{{
+      <a v-if="user.latest_tweet" href="#" @mouseenter.prevent="$emit('row-clicked', user.id)">{{
         user.latest_tweet.created_at
       }}</a>
     </div>

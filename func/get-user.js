@@ -60,6 +60,8 @@ const createLastTweetIndex = async (following, getTimelineFn) => {
       timeline = timeline.data;
     }
     if (timeline.length && timeline.length > 0) {
+      const latestTweet = timeline[0];
+      latestTweet.author = followed;
       latestTweets[followed.id] = timeline[0];
     }
   }
