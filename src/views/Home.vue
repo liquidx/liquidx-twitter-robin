@@ -1,9 +1,13 @@
 <template>
   <div class="home">
+    <div class="tweets"></div>
     <div class="followed">
       <div class="followed-user-header">
         <div class="followed-user-row">
-          <div class="username">Username</div>
+          <a href="#" class="latest-at" @click.prevent="sortBy('latest_tweet.created_at')"
+            >Latest</a
+          >
+          <a href="#" class="username" @click.prevent="sortBy('username', 'asc')">Username</a>
           <a href="#" class="name" @click.prevent="sortBy('name', 'asc')">Name</a>
           <a href="#" class="metrics" @click.prevent="sortBy('public_metrics.tweet_count')"
             >Tweets</a
@@ -14,14 +18,12 @@
           <a href="#" class="metrics" @click.prevent="sortBy('public_metrics.followers_count')"
             >Followers</a
           >
-          <a href="#" class="metrics" @click.prevent="sortBy('latest_tweet.created_at')">Latest</a>
         </div>
       </div>
       <div v-for="user in following" :key="user.id" class="followed-user-table">
         <followed-user-row :user="user" @row-clicked="rowDidClick" />
       </div>
     </div>
-    <div class="tweets"></div>
   </div>
 </template>
 
@@ -29,6 +31,21 @@
 .home {
   font-size: 0.8rem;
 }
+
+.tweets {
+  padding: 100px 20px 0 20px;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 400px;
+  height: 100vh;
+  overflow-y: scroll;
+}
+
+.followed {
+  margin-left: 450px;
+}
+
 .followed-user-header {
   font-weight: bold;
 
@@ -36,17 +53,6 @@
     text-decoration: none;
     color: inherit;
   }
-}
-
-.tweets {
-  padding: 20px;
-  position: fixed;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  width: 300px;
-  height: 100vh;
-  overflow-y: scroll;
 }
 
 .twitter-tweet.loading {
@@ -73,7 +79,7 @@ export default {
       following: [],
       latest: [],
       sortOrder: 'desc',
-      sortKey: '',
+      sortKey: 'latest_tweet.created_at',
     };
   },
   mounted() {
@@ -94,6 +100,7 @@ export default {
         }
       }
       this.following = followingResponse;
+      this.sortBy(this.sortKey, this.sortOrder);
     });
   },
   methods: {

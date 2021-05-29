@@ -1,5 +1,10 @@
 <template>
   <div class="followed-user-row">
+    <div class="latest-at">
+      <a v-if="user.latest_tweet" href="#" @mouseenter.prevent="$emit('row-clicked', user.id)">{{
+        relativeTweetTime
+      }}</a>
+    </div>
     <div class="username">
       <a :href="`https://twitter.com/${user.username}`" target="_blank"> @{{ user.username }}</a>
       <span v-if="user.protected">🔒</span>
@@ -8,11 +13,6 @@
     <div class="metrics">{{ user.public_metrics.tweet_count }}</div>
     <div class="metrics">{{ user.public_metrics.following_count }}</div>
     <div class="metrics">{{ user.public_metrics.followers_count }}</div>
-    <div class="latest-at">
-      <a v-if="user.latest_tweet" href="#" @mouseenter.prevent="$emit('row-clicked', user.id)">{{
-        user.latest_tweet.created_at
-      }}</a>
-    </div>
   </div>
 </template>
 
@@ -54,6 +54,7 @@
 </style>
 
 <script>
+import { DateTime } from 'luxon';
 export default {
   props: {
     user: {
@@ -61,6 +62,20 @@ export default {
       default() {
         return {};
       },
+    },
+  },
+  computed: {
+    relativeTweetTime() {
+      if (!this.user || !this.user.latest_tweet) {
+        return 'None';
+      }
+      const today = DateTime.now();
+      const date = DateTime.fromISO(this.user.latest_tweet.created_at);
+      if (date.year != today.year) {
+        return date.toFormat('yyyy MM dd');
+      } else {
+        return date.toRelative({ base: today });
+      }
     },
   },
 };

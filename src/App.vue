@@ -6,6 +6,10 @@
 </template>
 
 <style lang="scss">
+* {
+  box-sizing: border-box;
+}
+
 #app {
   font-family: Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
