@@ -77,8 +77,13 @@ export default {
     };
   },
   mounted() {
-    const followingRequest = fetch('/data/following.json').then((response) => response.json());
-    const latestRequest = fetch('/data/latest.json').then((response) => response.json());
+    //const baseUrl = '/';
+    const baseUrl = 'https://liquidx.github.io/liquidx-twitter-robin-data/';
+
+    const followingRequest = fetch(baseUrl + 'data/following.json').then((response) =>
+      response.json()
+    );
+    const latestRequest = fetch(baseUrl + 'data/latest.json').then((response) => response.json());
 
     Promise.all([followingRequest, latestRequest]).then(([followingResponse, latestResponse]) => {
       this.latest = latestResponse;
