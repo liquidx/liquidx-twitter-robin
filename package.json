@@ -1,7 +1,8 @@
 {
-  "name": "liquidx-new-proejct-vue",
-  "description": "Empty project with Vue 2.x",
-  "private": true,
+  "name": "liquidx-twitter-robin",
+  "description": "Round Robin Twitter",
+  "license": "MIT",
+  "version": "1.0.0",
   "engines": {
     "node": ">=10"
   },
