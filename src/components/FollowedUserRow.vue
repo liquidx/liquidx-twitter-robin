@@ -8,12 +8,17 @@
     <div class="metrics">{{ user.public_metrics.tweet_count }}</div>
     <div class="metrics">{{ user.public_metrics.following_count }}</div>
     <div class="metrics">{{ user.public_metrics.followers_count }}</div>
+    <div class="latest-at">
+      <a v-if="user.latest_tweet" href="#" @click.prevent="$emit('row-clicked', user.id)">{{
+        user.latest_tweet.created_at
+      }}</a>
+    </div>
   </div>
 </template>
 
 <style lang="scss">
 .followed-user-row {
-  margin: 0.5rem;
+  margin: 0.3rem;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -21,22 +26,30 @@
 }
 
 .metrics {
-  width: 100px;
-  min-width: 100px;
+  width: 80px;
+  min-width: 80px;
 }
 
 .name,
-.username {
-  width: 200px;
-  min-width: 200px;
+.username,
+.latest-at {
+  width: 150px;
+  min-width: 150px;
   overflow-x: hidden;
   white-space: nowrap;
 }
 
 .username,
-.name {
-  padding: 0 0.5rem;
-  margin: 0 0.5rem;
+.name .latest-at {
+  padding: 0 0.3rem;
+  margin: 0 0.3rem;
+}
+
+.latest-at {
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
 }
 </style>
 

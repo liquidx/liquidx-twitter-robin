@@ -3,6 +3,9 @@
 .eslintcache
 node_modules
 
+# Ignore generated data
+public/data/
+
 # Do not check in credentials
 credentials.json
 credentials-*.json
