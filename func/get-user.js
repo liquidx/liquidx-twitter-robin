@@ -1,11 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const Twitter = require('twitter-v2');
-const Credentials = require('../credentials-twitter.json');
-
-const twitterClient = new Twitter({
-  bearer_token: Credentials.BEARER_TOKEN,
-});
+const { getTwitterClient } = require('./twitter-client');
 
 const getFollowing = async (client, username) => {
   const userResponse = await client.get('users/by', {
@@ -24,7 +19,7 @@ const getFollowing = async (client, username) => {
 
 const getFollowingTimelines = async (client, username, following, timelineFn) => {
   const userFetchLimit = 1000;
-  const tweetCount = 10;
+  const tweetCount = 100;
   const fetchingFollowing = following.slice(0, userFetchLimit);
   const followingTimelines = {};
   for (const followed of fetchingFollowing) {
@@ -74,6 +69,7 @@ const commandForGetFollowing = (program) => {
     .option('--output <outputFile>', 'Write response to output file')
     .description('Get Following Accounts for User')
     .action(async (userId, options) => {
+      const twitterClient = getTwitterClient();
       const following = await getFollowing(twitterClient, userId);
       if (options.output) {
         fs.writeFileSync(options.output, JSON.stringify(following));
@@ -90,6 +86,7 @@ const commandForGetFollowingTimelines = (program) => {
     .option('--output <outputDir>', 'Write timelines to a directory named with userId.json')
     .description('Get Following Accounts for User')
     .action(async (userId, options) => {
+      const twitterClient = getTwitterClient();
       let following = [];
       if (options.followingList) {
         following = JSON.parse(fs.readFileSync(options.followingList));
@@ -122,6 +119,7 @@ const commandForCreateLatestTweetIndex = (program) => {
     .option('--output <outputFilename>', '')
     .description('Create latest tweet index for followers')
     .action(async (userId, timelineDir, options) => {
+      const twitterClient = getTwitterClient();
       let following = [];
       if (options.followingList) {
         following = JSON.parse(fs.readFileSync(options.followingList));

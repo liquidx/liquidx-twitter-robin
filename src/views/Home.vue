@@ -18,6 +18,7 @@
           <a href="#" class="metrics" @click.prevent="sortBy('public_metrics.followers_count')"
             >Followers</a
           >
+          <span class="spark">Timeline</span>
         </div>
       </div>
       <div v-for="user in following" :key="user.id" class="followed-user-table">
@@ -52,6 +53,10 @@
   a {
     text-decoration: none;
     color: inherit;
+  }
+
+  .spark {
+    flex-grow: 1;
   }
 }
 

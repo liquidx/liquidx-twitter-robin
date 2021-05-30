@@ -13,6 +13,7 @@
     <div class="metrics">{{ user.public_metrics.tweet_count }}</div>
     <div class="metrics">{{ user.public_metrics.following_count }}</div>
     <div class="metrics">{{ user.public_metrics.followers_count }}</div>
+    <div class="spark"><img :src="sparklineSvg" height="15" /></div>
   </div>
 </template>
 
@@ -51,6 +52,12 @@
     color: inherit;
   }
 }
+
+.spark {
+  img {
+    height: 15px;
+  }
+}
 </style>
 
 <script>
@@ -76,6 +83,9 @@ export default {
       } else {
         return date.toRelative({ base: today });
       }
+    },
+    sparklineSvg() {
+      return `/timelines/${this.user.id}.timeline.svg`;
     },
   },
 };
