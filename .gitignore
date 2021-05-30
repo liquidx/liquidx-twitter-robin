@@ -5,6 +5,7 @@ node_modules
 
 # Ignore generated data
 public/data/
+public/timelines/
 dist/
 
 

@@ -9,12 +9,18 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "get-svg": "node main.js visualize-timeline liquidx public/timelines --following-list public/data/following.json  --output public/timelines/",
+    "get-timelines": "node main.js get-following-timelines liquidx --following-list public/data/following.json --output public/timelines",
+    "get-following": "node main.js get-following liquidx --output following.json"
   },
   "main": "main.js",
   "dependencies": {
     "commander": "^2.17.1",
+    "d3": "^6.7.0",
+    "d3-node": "^2.2.2",
     "got": "^11.8.2",
+    "jsdom": "^16.6.0",
     "luxon": "^1.27.0",
     "needle": "^2.6.0",
     "oauth-1.0a": "^2.2.6",
