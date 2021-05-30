@@ -17,9 +17,8 @@ const getFollowing = async (client, username) => {
   return followingResponse.data;
 };
 
-const getFollowingTimelines = async (client, username, following, timelineFn) => {
+const getFollowingTimelines = async (client, username, following, tweetCount, timelineFn) => {
   const userFetchLimit = 1000;
-  const tweetCount = 100;
   const fetchingFollowing = following.slice(0, userFetchLimit);
   const followingTimelines = {};
   for (const followed of fetchingFollowing) {
@@ -39,10 +38,12 @@ const getFollowingTimelines = async (client, username, following, timelineFn) =>
         'source',
       ],
     });
-    if (timelineFn) {
-      timelineFn(followed.id, followedTimeline.data);
+    if (followedTimeline && followedTimeline.data) {
+      if (timelineFn) {
+        timelineFn(followed.id, followedTimeline.data);
+      }
+      followingTimelines[followed.id] = followedTimeline.data;
     }
-    followingTimelines[followed.id] = followedTimeline.data;
   }
   return followingTimelines;
 };
@@ -83,6 +84,7 @@ const commandForGetFollowingTimelines = (program) => {
   program
     .command('get-following-timelines <userid>')
     .option('--following-list <followingJson>', 'Output of get-following.')
+    .option('--tweet-count <tweetCount>', 'Number of tweets to fetch.', 10)
     .option('--output <outputDir>', 'Write timelines to a directory named with userId.json')
     .description('Get Following Accounts for User')
     .action(async (userId, options) => {
@@ -106,6 +108,7 @@ const commandForGetFollowingTimelines = (program) => {
         twitterClient,
         userId,
         following,
+        options.tweetCount,
         outputTimeline
       );
       console.log(Object.keys(followingTimelines));

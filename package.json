@@ -11,8 +11,9 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "get-svg": "node main.js visualize-timeline liquidx public/timelines --following-list public/data/following.json  --output public/timelines/",
+    "get-latest": "node main.js latest-tweets liquidx public/timelines --following-list public/data/following.json  --output public/data/latest.json",
     "get-timelines": "node main.js get-following-timelines liquidx --following-list public/data/following.json --output public/timelines",
-    "get-following": "node main.js get-following liquidx --output following.json"
+    "get-following": "node main.js get-following liquidx --output public/data/following.json"
   },
   "main": "main.js",
   "dependencies": {
