@@ -13,7 +13,7 @@
     <div class="metrics">{{ user.public_metrics.tweet_count }}</div>
     <div class="metrics">{{ user.public_metrics.following_count }}</div>
     <div class="metrics">{{ user.public_metrics.followers_count }}</div>
-    <div class="spark"><img :src="sparklineSvg" height="15" /></div>
+    <div class="spark"><img v-if="user.latest_tweet" :src="sparklineSvg" height="15" /></div>
   </div>
 </template>
 

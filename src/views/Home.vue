@@ -88,8 +88,8 @@ export default {
     };
   },
   mounted() {
-    //const baseUrl = '/';
-    const baseUrl = 'https://liquidx.github.io/liquidx-twitter-robin-data/';
+    const baseUrl = '/';
+    //const baseUrl = 'https://liquidx.github.io/liquidx-twitter-robin-data/';
 
     const followingRequest = fetch(baseUrl + 'data/following.json').then((response) =>
       response.json()
