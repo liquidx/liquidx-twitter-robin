@@ -18,7 +18,12 @@ const visualizeFollowed = async (following, getTimelineFn) => {
   const dateFormat = 'yyyy-MM-dd';
 
   for (const followed of following) {
-    let timeline = await getTimelineFn(followed.id).then((response) => JSON.parse(response));
+    let timeline = await getTimelineFn(followed.id)
+      .then((response) => JSON.parse(response))
+      .catch(() => {
+        return [];
+      });
+
     if (timeline.data) {
       timeline = timeline.data;
     }
@@ -66,17 +71,17 @@ const visualizeFollowed = async (following, getTimelineFn) => {
 
 const commnadForVisualizeTimeline = (program) => {
   program
-    .command('visualize-timeline <userId> <timelineDir>')
+    .command('visualize-timeline <username> <timelineDir>')
     .option('--following-list <followingJson>', 'Output of get-following.')
     .option('--output <outputDir>', '')
     .description('Visualize Timeline')
-    .action(async (userId, timelineDir, options) => {
+    .action(async (username, timelineDir, options) => {
       const twitterClient = getTwitterClient();
       let following = [];
       if (options.followingList) {
         following = JSON.parse(fs.readFileSync(options.followingList));
       } else {
-        following = await getFollowing(twitterClient, userId);
+        following = await getFollowing(twitterClient, username);
       }
 
       const getTimeline = (followedId) => {

@@ -4,6 +4,7 @@ const {
   commandForGetFollowing,
   commandForGetFollowingTimelines,
   commandForCreateLatestTweetIndex,
+  commandForGetUserTimeline,
 } = require('./func/get-user.js');
 
 const { commnadForVisualizeTimeline } = require('./func/vis-followed');
@@ -15,6 +16,7 @@ const main = () => {
   commandForGetFollowingTimelines(program);
   commandForCreateLatestTweetIndex(program);
   commnadForVisualizeTimeline(program);
+  commandForGetUserTimeline(program);
   program.parse(process.argv);
 };
 
