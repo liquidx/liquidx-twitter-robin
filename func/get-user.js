@@ -57,7 +57,11 @@ const getFollowingTimelines = async (client, username, following, tweetCount, ti
 const createLastTweetIndex = async (following, getTimelineFn) => {
   const latestTweets = {};
   for (const followed of following) {
-    let timeline = await getTimelineFn(followed.id).then((response) => JSON.parse(response));
+    let timeline = await getTimelineFn(followed.id);
+    if (!timeline || timeline.length == 0) {
+      continue;
+    }
+
     if (timeline.data) {
       timeline = timeline.data;
     }
@@ -158,7 +162,14 @@ const commandForCreateLatestTweetIndex = (program) => {
 
       const getTimeline = (followedId) => {
         const timelinePath = path.join(timelineDir, `${followedId}.timeline.json`);
-        return fs.promises.readFile(timelinePath);
+        return fs.promises
+          .readFile(timelinePath)
+          .then((response) => {
+            return JSON.parse(response);
+          })
+          .catch(() => {
+            return [];
+          });
       };
 
       const latestTweets = await createLastTweetIndex(following, getTimeline);
